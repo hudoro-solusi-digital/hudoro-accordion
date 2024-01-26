@@ -12,6 +12,10 @@
   box-sizing: border-box;
   width: 100%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
 }
 .hudoro-accordion-button:hover {
   background: rgba(112, 144, 176, 0.18);
@@ -19,8 +23,13 @@
 .hudoro-accordion-button,
 .hudoro-accordion-panel {
   transition: 0.3s;
-  padding: 16px;
   overflow: hidden;
+}
+.hudoro-accordion-panel {
+  padding-inline: 16px;
+}
+.hudoro-accordion-button {
+  padding: 16px;
 }
 
 .hudoro-accordion-item {
@@ -34,7 +43,14 @@
   grid-template-rows: 1fr 1fr;
 }
 
-.hudoro-accordion-panel:not(.active) {
-  padding-top: 0;
-  padding-bottom: 0;
+.hudoro-accordion-item.active > .hudoro-accordion-panel {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.hudoro-accordion-arrow {
+  transition: 0.3s;
+}
+.hudoro-accordion-item.active .hudoro-accordion-arrow {
+  transform: rotate(180deg);
 }
