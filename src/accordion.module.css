@@ -51,6 +51,6 @@
 .hudoro-accordion-arrow {
   transition: 0.3s;
 }
-.hudoro-accordion-item.active .hudoro-accordion-arrow {
+.hudoro-accordion-arrow-active {
   transform: rotate(180deg);
 }

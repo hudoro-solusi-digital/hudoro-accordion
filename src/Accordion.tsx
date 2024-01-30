@@ -1,9 +1,22 @@
-import React, {ReactNode, useContext, useRef, useState} from "react";
-import "./accordion.css";
+import React, {ReactNode, useContext, useRef} from "react";
+import styles from "./accordion.module.css?raw";
+// import stylesBind from "./accordion.module.css?raw";
 import {createContext} from "react";
+
+const styleId = "hudoro-accordion-styles";
+const injectStyles = (css: string) => {
+  if (!document.getElementById(styleId)) {
+    const styleElement = document.createElement("style");
+    styleElement.id = styleId;
+    styleElement.textContent = css;
+    document.head.appendChild(styleElement);
+  }
+};
+injectStyles(styles);
 
 const AccordionContext = createContext<{
   allowMultiple: boolean;
+  handlePushRef?: (component: HTMLDivElement) => void;
 }>({allowMultiple: false});
 
 // ______________________ACCORDION CONTAINER
@@ -12,9 +25,62 @@ interface IAccordion {
   allowMultiple?: boolean;
 }
 export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
+  const multipeRefComp = useRef<HTMLDivElement[] | null>([]);
+
+  const handlePushRef = (component: HTMLDivElement) => {
+    const findIfComponentExist = multipeRefComp.current?.find(
+      (item) => item === component
+    );
+    if (allowMultiple) {
+      if (!findIfComponentExist) {
+        // component.classList.add(styles.active);
+        component.classList.add("active");
+        component
+          .querySelector(`.hudoro-accordion-arrow`)
+          ?.classList.add(`hudoro-accordion-arrow-active`);
+        multipeRefComp.current?.push(component);
+      } else if (findIfComponentExist) {
+        component
+          .querySelector(`.hudoro-accordion-arrow`)
+          ?.classList.remove(`hudoro-accordion-arrow-active`);
+        component.classList.remove("active");
+        multipeRefComp.current = multipeRefComp.current!.filter(
+          (item) => item !== component
+        );
+      }
+    } else {
+      if (multipeRefComp.current?.length) {
+        if (multipeRefComp.current[0] === component) {
+          multipeRefComp.current[0]
+            .querySelector(`.hudoro-accordion-arrow`)
+            ?.classList.remove(`hudoro-accordion-arrow-active`);
+          multipeRefComp.current[0].classList.remove("active");
+          multipeRefComp.current = [];
+        } else {
+          multipeRefComp.current[0]
+            .querySelector(`.hudoro-accordion-arrow`)
+            ?.classList.remove(`hudoro-accordion-arrow-active`);
+          multipeRefComp.current[0].classList.remove("active");
+          multipeRefComp.current = [];
+          component.classList.add("active");
+          multipeRefComp.current[0] = component;
+          multipeRefComp.current[0]
+            .querySelector(`.hudoro-accordion-arrow`)
+            ?.classList.add(`hudoro-accordion-arrow-active`);
+        }
+      } else {
+        component.classList.add("active");
+        component
+          .querySelector(`.hudoro-accordion-arrow`)
+          ?.classList.add(`hudoro-accordion-arrow-active`);
+        multipeRefComp.current!.push(component);
+      }
+    }
+  };
+
   return (
-    <AccordionContext.Provider value={{allowMultiple}}>
-      <div className="hudoro-accordion">{children}</div>
+    <AccordionContext.Provider value={{allowMultiple, handlePushRef}}>
+      <div className={"hudoro-accordion"}>{children}</div>
     </AccordionContext.Provider>
   );
 };
@@ -24,40 +90,7 @@ interface IAccordionItem {
   children: ReactNode;
 }
 export const AccordionItem = ({children}: IAccordionItem) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const {allowMultiple} = useContext(AccordionContext);
-
-  const handleToggleElemet = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    const childElements = e.currentTarget.parentElement?.children || [];
-    ref.current = null;
-
-    if (!allowMultiple) {
-      for (let i = 0; i < childElements?.length; i++) {
-        if (childElements[i].classList.contains("active")) {
-          ref.current = childElements[i] as HTMLDivElement;
-          childElements[i].classList.remove("active");
-        }
-      }
-    }
-
-    if (e.currentTarget.classList.contains("active")) {
-      e.currentTarget.classList.remove("active");
-    } else if (ref.current !== e.currentTarget) {
-      e.currentTarget.classList.add("active");
-    } else {
-      e.currentTarget.classList.remove("active");
-    }
-  };
-  return (
-    <div
-      className={`hudoro-accordion-item`}
-      onClick={(e) => handleToggleElemet(e)}
-    >
-      {children}
-    </div>
-  );
+  return <div className={`hudoro-accordion-item`}>{children}</div>;
 };
 
 // _______________________ ACCORDION BUTTON
@@ -65,8 +98,19 @@ interface IAccordionButton {
   children: ReactNode;
 }
 export const AccordionButton = ({children}: IAccordionButton) => {
+  const {handlePushRef} = useContext(AccordionContext);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (e.currentTarget.parentElement && handlePushRef) {
+      handlePushRef(e.currentTarget.parentElement as HTMLDivElement);
+    }
+  };
+
   return (
-    <button className="hudoro-accordion-button">
+    <button
+      className={`hudoro-accordion-button`}
+      onClick={(e) => handleClick(e)}
+    >
       <div>{children}</div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -74,14 +118,14 @@ export const AccordionButton = ({children}: IAccordionButton) => {
         height="25"
         viewBox="0 0 24 25"
         fill="none"
-        className="hudoro-accordion-arrow"
+        className={"hudoro-accordion-arrow"}
       >
         <path
           d="M4 9.5L12 17.5L20 9.5"
           stroke="#111827"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>

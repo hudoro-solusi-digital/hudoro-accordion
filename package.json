@@ -1,14 +1,22 @@
 {
-  "name": "hudoro-accordion",
-  "version": "0.0.1",
+  "name": "@hudoro/accordion",
+  "version": "0.0.1-beta.1",
   "description": "Accordion component for Hudoro UI",
-  "main": "index.js",
+  "author": "Prawito Hudoro",
+  "main": "dist/accordion.umd.js",
+  "module": "dist/accordion.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "dist/*.map",
+    "dist/*.css"
+  ],
   "scripts": {
     "dev": "vite --config vite.config.ts --port 3000",
     "build": "vite build --config vite.config.ts"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "module",
   "engines": {
@@ -27,6 +35,10 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-dts": "^3.7.1"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   }
 }
 
