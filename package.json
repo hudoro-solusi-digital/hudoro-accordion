@@ -1,6 +1,6 @@
 {
   "name": "@hudoro/accordion",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.3",
   "description": "Accordion component for Hudoro UI",
   "author": "Prawito Hudoro",
   "main": "dist/accordion.umd.js",
