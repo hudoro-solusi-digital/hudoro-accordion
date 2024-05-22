@@ -3,8 +3,10 @@ export {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
+} from "./Accordion";
+export {
   IAccordion,
   IAccordionButton,
   IAccordionItem,
   IAccordionPanel,
-} from "./Accordion";
+} from "./types";

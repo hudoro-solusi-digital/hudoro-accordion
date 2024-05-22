@@ -2,6 +2,12 @@ import React, {ReactNode, useContext, useRef} from "react";
 import styles from "./accordion.module.css?raw";
 // import stylesBind from "./accordion.module.css?raw";
 import {createContext} from "react";
+import {
+  IAccordion,
+  IAccordionButton,
+  IAccordionItem,
+  IAccordionPanel,
+} from "./types";
 
 const styleId = "hudoro-accordion-styles";
 const injectStyles = (css: string) => {
@@ -20,10 +26,7 @@ const AccordionContext = createContext<{
 }>({allowMultiple: false});
 
 // ______________________ACCORDION CONTAINER
-export interface IAccordion {
-  children: ReactNode;
-  allowMultiple?: boolean;
-}
+
 export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
   const multipeRefComp = useRef<HTMLDivElement[] | null>([]);
 
@@ -86,17 +89,13 @@ export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
 };
 
 // ______________________ACCORDION ITEM
-export interface IAccordionItem {
-  children: ReactNode;
-}
+
 export const AccordionItem = ({children}: IAccordionItem) => {
   return <div className={`hudoro-accordion-item`}>{children}</div>;
 };
 
 // _______________________ ACCORDION BUTTON
-export interface IAccordionButton {
-  children: ReactNode;
-}
+
 export const AccordionButton = ({children}: IAccordionButton) => {
   const {handlePushRef} = useContext(AccordionContext);
 
@@ -133,9 +132,7 @@ export const AccordionButton = ({children}: IAccordionButton) => {
 };
 
 // _______________________ACCORDION PANEL
-export interface IAccordionPanel {
-  children: ReactNode;
-}
+
 export const AccordionPanel = ({children}: IAccordionPanel) => {
   return (
     <div
