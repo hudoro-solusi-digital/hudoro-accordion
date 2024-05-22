@@ -4,9 +4,4 @@ export {
   AccordionButton,
   AccordionPanel,
 } from "./Accordion";
-export {
-  IAccordion,
-  IAccordionButton,
-  IAccordionItem,
-  IAccordionPanel,
-} from "./types";
+export * from "./types";

@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "../src";
+import {IAccordionItem} from "../src";
 
 const App = () => (
   <div>
