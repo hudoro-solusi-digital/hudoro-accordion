@@ -20,7 +20,7 @@ const AccordionContext = createContext<{
 }>({allowMultiple: false});
 
 // ______________________ACCORDION CONTAINER
-interface IAccordion {
+export interface IAccordion {
   children: ReactNode;
   allowMultiple?: boolean;
 }
@@ -86,7 +86,7 @@ export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
 };
 
 // ______________________ACCORDION ITEM
-interface IAccordionItem {
+export interface IAccordionItem {
   children: ReactNode;
 }
 export const AccordionItem = ({children}: IAccordionItem) => {
@@ -94,7 +94,7 @@ export const AccordionItem = ({children}: IAccordionItem) => {
 };
 
 // _______________________ ACCORDION BUTTON
-interface IAccordionButton {
+export interface IAccordionButton {
   children: ReactNode;
 }
 export const AccordionButton = ({children}: IAccordionButton) => {
@@ -133,7 +133,7 @@ export const AccordionButton = ({children}: IAccordionButton) => {
 };
 
 // _______________________ACCORDION PANEL
-interface IAccordionPanel {
+export interface IAccordionPanel {
   children: ReactNode;
 }
 export const AccordionPanel = ({children}: IAccordionPanel) => {
