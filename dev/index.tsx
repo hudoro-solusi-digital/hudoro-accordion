@@ -14,21 +14,14 @@ const App = () => (
     <h1>Testing Accordion Component</h1>
     <Accordion>
       <AccordionItem>
-        <AccordionButton>
-          button 1
-          <button
-            onClick={(e) => e.stopPropagation()}
-            style={{pointerEvents: "none"}}
-          >
-            {" "}
-            woke
-          </button>
-        </AccordionButton>
+        <AccordionButton>button 1</AccordionButton>
         <AccordionPanel>Panel 1</AccordionPanel>
       </AccordionItem>
       <AccordionItem>
-        <AccordionButton>button 2</AccordionButton>
-        <AccordionPanel>Panel 2</AccordionPanel>
+        <AccordionButton expand={false}>button 2</AccordionButton>
+        <AccordionPanel>
+          <div style={{height: "100px"}}>Panel 2</div>
+        </AccordionPanel>
       </AccordionItem>
     </Accordion>
   </div>

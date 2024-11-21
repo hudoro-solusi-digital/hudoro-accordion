@@ -96,7 +96,10 @@ export const AccordionItem = ({children}: IAccordionItem) => {
 
 // _______________________ ACCORDION BUTTON
 
-export const AccordionButton = ({children}: IAccordionButton) => {
+export const AccordionButton = ({
+  children,
+  expand = true,
+}: IAccordionButton) => {
   const {handlePushRef} = useContext(AccordionContext);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -108,26 +111,28 @@ export const AccordionButton = ({children}: IAccordionButton) => {
   return (
     <button
       className={`hudoro-accordion-button`}
-      onClick={(e) => handleClick(e)}
+      onClick={(e) => (expand ? handleClick(e) : {})}
     >
       {children}
       {/* <div>{children}</div> */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-        className={"hudoro-accordion-arrow"}
-      >
-        <path
-          d="M4 9.5L12 17.5L20 9.5"
-          stroke="#111827"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {expand ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+          className={"hudoro-accordion-arrow"}
+        >
+          <path
+            d="M4 9.5L12 17.5L20 9.5"
+            stroke="#111827"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : null}
     </button>
   );
 };

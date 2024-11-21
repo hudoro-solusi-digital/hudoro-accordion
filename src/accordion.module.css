@@ -44,6 +44,7 @@
   align-items: center;
   gap: 10px;
   justify-content: space-between;
+  height: max-content;
 }
 .hudoro-accordion-button:hover {
   background: #edf0f2;
