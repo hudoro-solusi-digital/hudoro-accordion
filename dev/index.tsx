@@ -18,9 +18,9 @@ const App = () => (
         <AccordionPanel>Panel 1</AccordionPanel>
       </AccordionItem>
       <AccordionItem>
-        <AccordionButton expand={false}>button 2</AccordionButton>
+        <AccordionButton>button 2</AccordionButton>
         <AccordionPanel>
-          <div style={{height: "100px"}}>Panel 2</div>
+          <div style={{paddingBlock: "150px"}}>Panel 2</div>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

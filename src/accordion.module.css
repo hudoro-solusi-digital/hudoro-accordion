@@ -64,7 +64,7 @@
 
 .hudoro-accordion-item {
   display: grid;
-  grid-template-rows: 1fr 0fr;
+  grid-template-rows: max-content 0fr;
   transition: 0.3s;
   border-bottom: 1px solid var(--hsd-ui-accordion-secondary-color);
 }
@@ -73,7 +73,7 @@
 }
 .hudoro-accordion-item.active {
   transition: 0.3s;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: max-content 1fr;
 }
 
 .hudoro-accordion-item.active > .hudoro-accordion-panel {
