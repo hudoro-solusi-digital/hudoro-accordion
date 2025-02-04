@@ -25,10 +25,10 @@
   overflow: hidden;
 }
 .hudoro-accordion-panel {
-  padding-inline: var(--hsd-ui-spacing-md, 14px);
+  padding-inline: var(--hsd-ui-spacing-lg, 16px);
 }
 .hudoro-accordion-button {
-  padding: var(--hsd-ui-spacing-md, 14px);
+  padding: var(--hsd-ui-spacing-lg, 16px);
 }
 
 .hudoro-accordion-item {
