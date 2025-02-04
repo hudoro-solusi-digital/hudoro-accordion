@@ -20,7 +20,7 @@ const App = () => (
       <AccordionItem>
         <AccordionButton>button 2</AccordionButton>
         <AccordionPanel>
-          <div style={{paddingBlock: "150px"}}>Panel 2</div>
+          <div>Panel 2</div>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
