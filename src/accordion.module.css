@@ -25,6 +25,7 @@
   overflow: hidden;
 }
 .hudoro-accordion-panel {
+  background-color: rgba(120, 134, 127, 0.1);
   padding-inline: var(--hsd-ui-spacing-lg, 16px);
 }
 .hudoro-accordion-button {
