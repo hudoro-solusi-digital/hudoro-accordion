@@ -12,6 +12,7 @@ export interface IAccordionItem {
 export interface IAccordionButton {
   children: ReactNode;
   expand?: boolean;
+  defaultIcon?: boolean;
 }
 
 export interface IAccordionPanel {

@@ -99,6 +99,7 @@ export const AccordionItem = ({children}: IAccordionItem) => {
 export const AccordionButton = ({
   children,
   expand = true,
+  defaultIcon = true,
 }: IAccordionButton) => {
   const {handlePushRef} = useContext(AccordionContext);
 
@@ -115,7 +116,7 @@ export const AccordionButton = ({
     >
       {children}
       {/* <div>{children}</div> */}
-      {expand ? (
+      {expand && defaultIcon ? (
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
