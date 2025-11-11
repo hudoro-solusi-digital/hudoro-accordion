@@ -1,6 +1,5 @@
-import React, {ReactNode, useContext, useRef} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import styles from "./accordion.module.css?raw";
-// import stylesBind from "./accordion.module.css?raw";
 import {createContext} from "react";
 import {
   IAccordion,
@@ -22,67 +21,43 @@ injectStyles(styles);
 
 const AccordionContext = createContext<{
   allowMultiple: boolean;
-  handlePushRef?: (component: HTMLDivElement) => void;
-}>({allowMultiple: false});
+  dataAccordion: {id: string; isActive: boolean}[];
+  setDataAccordion?: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: string;
+        isActive: boolean;
+      }[]
+    >
+  >;
+  toggleAccordion?: (id: string) => void;
+}>({allowMultiple: false, dataAccordion: []});
 
 // ______________________ACCORDION CONTAINER
 
 export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
-  const multipeRefComp = useRef<HTMLDivElement[] | null>([]);
+  const [dataAccordion, setDataAccordion] = useState<
+    {id: string; isActive: boolean}[]
+  >([]);
 
-  const handlePushRef = (component: HTMLDivElement) => {
-    const findIfComponentExist = multipeRefComp.current?.find(
-      (item) => item === component
-    );
-    if (allowMultiple) {
-      if (!findIfComponentExist) {
-        // component.classList.add(styles.active);
-        component.classList.add("active");
-        component
-          .querySelector(`.hudoro-accordion-arrow`)
-          ?.classList.add(`hudoro-accordion-arrow-active`);
-        multipeRefComp.current?.push(component);
-      } else if (findIfComponentExist) {
-        component
-          .querySelector(`.hudoro-accordion-arrow`)
-          ?.classList.remove(`hudoro-accordion-arrow-active`);
-        component.classList.remove("active");
-        multipeRefComp.current = multipeRefComp.current!.filter(
-          (item) => item !== component
-        );
-      }
-    } else {
-      if (multipeRefComp.current?.length) {
-        if (multipeRefComp.current[0] === component) {
-          multipeRefComp.current[0]
-            .querySelector(`.hudoro-accordion-arrow`)
-            ?.classList.remove(`hudoro-accordion-arrow-active`);
-          multipeRefComp.current[0].classList.remove("active");
-          multipeRefComp.current = [];
-        } else {
-          multipeRefComp.current[0]
-            .querySelector(`.hudoro-accordion-arrow`)
-            ?.classList.remove(`hudoro-accordion-arrow-active`);
-          multipeRefComp.current[0].classList.remove("active");
-          multipeRefComp.current = [];
-          component.classList.add("active");
-          multipeRefComp.current[0] = component;
-          multipeRefComp.current[0]
-            .querySelector(`.hudoro-accordion-arrow`)
-            ?.classList.add(`hudoro-accordion-arrow-active`);
+  const toggleAccordion = (id: string) => {
+    setDataAccordion((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          return {...item, isActive: !item.isActive};
         }
-      } else {
-        component.classList.add("active");
-        component
-          .querySelector(`.hudoro-accordion-arrow`)
-          ?.classList.add(`hudoro-accordion-arrow-active`);
-        multipeRefComp.current!.push(component);
-      }
-    }
+        if (allowMultiple) {
+          return item;
+        }
+        return {...item, isActive: false};
+      })
+    );
   };
 
   return (
-    <AccordionContext.Provider value={{allowMultiple, handlePushRef}}>
+    <AccordionContext.Provider
+      value={{allowMultiple, dataAccordion, setDataAccordion, toggleAccordion}}
+    >
       <div className={"hudoro-accordion"}>{children}</div>
     </AccordionContext.Provider>
   );
@@ -90,8 +65,33 @@ export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
 
 // ______________________ACCORDION ITEM
 
-export const AccordionItem = ({children}: IAccordionItem) => {
-  return <div className={`hudoro-accordion-item`}>{children}</div>;
+const AccordionItemContext = createContext("");
+
+export const AccordionItem = ({children, isOpen}: IAccordionItem) => {
+  const [accordionId, setAccordionId] = useState("");
+  const context = useContext(AccordionContext);
+
+  const isActive = context.dataAccordion.find(
+    (item) => item.id === accordionId
+  )?.isActive;
+
+  useEffect(() => {
+    let data = {id: crypto.randomUUID(), isActive: false};
+
+    setAccordionId(data.id);
+
+    context.setDataAccordion!((prev) => [...prev, data]);
+  }, []);
+
+  return (
+    <AccordionItemContext.Provider value={accordionId}>
+      <div
+        className={`hudoro-accordion-item ${(isActive || isOpen) && "active"}`}
+      >
+        {children}
+      </div>
+    </AccordionItemContext.Provider>
+  );
 };
 
 // _______________________ ACCORDION BUTTON
@@ -101,18 +101,13 @@ export const AccordionButton = ({
   expand = true,
   defaultIcon = true,
 }: IAccordionButton) => {
-  const {handlePushRef} = useContext(AccordionContext);
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (e.currentTarget.parentElement && handlePushRef) {
-      handlePushRef(e.currentTarget.parentElement as HTMLDivElement);
-    }
-  };
+  const {toggleAccordion} = useContext(AccordionContext);
+  const parentId = useContext(AccordionItemContext);
 
   return (
     <button
       className={`hudoro-accordion-button`}
-      onClick={(e) => (expand ? handleClick(e) : {})}
+      onClick={(e) => (expand ? toggleAccordion!(parentId) : {})}
     >
       {children}
       {/* <div>{children}</div> */}

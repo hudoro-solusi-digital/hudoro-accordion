@@ -7,6 +7,7 @@ export interface IAccordion {
 
 export interface IAccordionItem {
   children: ReactNode;
+  isOpen?: boolean;
 }
 
 export interface IAccordionButton {
