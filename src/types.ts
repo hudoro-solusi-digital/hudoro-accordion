@@ -1,8 +1,9 @@
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 
 export interface IAccordion {
   children: ReactNode;
   allowMultiple?: boolean;
+  style?: React.CSSProperties;
 }
 
 export interface IAccordionItem {

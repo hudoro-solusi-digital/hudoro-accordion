@@ -35,7 +35,11 @@ const AccordionContext = createContext<{
 
 // ______________________ACCORDION CONTAINER
 
-export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
+export const Accordion = ({
+  children,
+  allowMultiple = false,
+  style,
+}: IAccordion) => {
   const [dataAccordion, setDataAccordion] = useState<
     {id: string; isActive: boolean}[]
   >([]);
@@ -58,7 +62,9 @@ export const Accordion = ({children, allowMultiple = false}: IAccordion) => {
     <AccordionContext.Provider
       value={{allowMultiple, dataAccordion, setDataAccordion, toggleAccordion}}
     >
-      <div className={"hudoro-accordion"}>{children}</div>
+      <div className={"hudoro-accordion"} style={style}>
+        {children}
+      </div>
     </AccordionContext.Provider>
   );
 };
